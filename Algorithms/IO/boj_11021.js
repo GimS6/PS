@@ -10,17 +10,19 @@ let input = [];
 r.on("line", (line) => {
     input.push(line);
 }).on("close", () => {
-    let length = input.length;
-    for (let i = 0; i < length; i++) {
+    let unit = input[0];
+
+    for (let i = 1; i <= unit; i++) {
         let numbers = input[i]
             .split(' ')
             .map((a) => {
-                return a * 1;
+                return a * 1
             });
-        if (numbers[0] == 0 && numbers[1] == 0) {
-            return
-        }
-        console.log(numbers[0] + numbers[1]);
+        
+        let result = `Case #${i}: ${numbers[0] + numbers[1]}`;
+
+        console.log(result);
     }
+
     process.exit();
 });
