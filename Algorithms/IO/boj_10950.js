@@ -7,9 +7,9 @@ let r = readline.createInterface({
 
 let input = [];
 
-r.on("line", function(line) {
+r.on("line", function (line) {
     input.push(line);
-}).on("close", function() {
+}).on("close", function () {
     let count = Number(input[0]);
     let numbers = [];
 
@@ -25,5 +25,3 @@ r.on("line", function(line) {
     }
     process.exit();
 });
-
-

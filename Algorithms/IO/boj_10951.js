@@ -8,13 +8,12 @@ let r = readline.createInterface({
 
 let input = [];
 r.on("line", (line) => {
-    input.push(line)
-})
-.on("close", () => {
+    input.push(line);
+}).on("close", () => {
 
     let length = input.length;
     for (let i = 0; i < length; i++) {
-        let numbers = input[i].split(' ').map((a)=> { return a*1 });
+        let numbers = input[i].split(' ').map((a) => { return a * 1 });
 
         console.log(numbers[0] + numbers[1]);
     }
