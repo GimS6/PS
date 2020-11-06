@@ -1,4 +1,4 @@
-let readline = require("readline");
+let readline = require('readline');
 
 let r = readline.createInterface({
     input: process.stdin,
@@ -10,20 +10,26 @@ let input = [];
 r.on("line", (line) => {
     input.push(line);
 }).on("close", () => {
-
     let str = input[0];
     let length = str.length;
-    let unit = parseInt(length / 10) + 1;
+    let count = 0;
 
-    for (let i = 0; i < unit; i++) {
-        let start = i * 10;
-        let end = start + 10;
+    let result = '';
 
-        if (i == unit - 1) {
-            console.log(str.slice(start, length));
-            break
+    for (let i = 0; i < length; i++) {
+        if (count == 10) {
+            count = 0;
+            console.log(result);
+            result = ''
         }
-        console.log(str.slice(start, end));
+
+        result += str.charAt(i);
+        count++;
     }
+
+    if (result != '') {
+        console.log(result);
+    }
+
     process.exit();
-})
+});
