@@ -10,19 +10,22 @@ let input = [];
 r.on("line", (line) => {
     input.push(line);
 }).on("close", () => {
-
-    let md = input[0]
+    let date = input[0]
         .split(" ")
         .map((a) => {
             return a * 1
         });
 
-    let m = md[0];
-    let d = md[1];
+    let m = date[0];
+    let d = date[1];
 
-    // new Date(2007, m, d) 형식으로 넣으면 원하는 날짜가 안 나옴.
-    let date = new Date(`2007-${m}-${d}`).toLocaleString("en-us", { weekday: 'short' });
-    console.log(date.toUpperCase())
+    let day = new Date(2007, m - 1, d)
+
+    console.log(
+        new Intl.DateTimeFormat('en-US', { weekday: 'short' })
+            .format(day)
+            .toUpperCase()
+    );
 
     process.exit();
 });
