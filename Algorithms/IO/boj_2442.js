@@ -10,11 +10,14 @@ let input = [];
 r.on("line", (line) => {
     input.push(line);
 }).on("close", () => {
+    const n = input[0];
+    const lastNum = n * 2 - 1;
 
-    let n = input[0];
+    for (let i = 1; i <= n; i++) {
+        let stars = '*'.repeat(i * 2 - 1);
+        let space = ' '.repeat((lastNum - stars.length) / 2);
 
-    for (let i = 0; i < n; i++) {
-        console.log(' '.repeat(i) + "*".repeat(n - i));
+        console.log(space + stars);
     }
 
     process.exit();

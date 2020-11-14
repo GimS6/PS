@@ -1,4 +1,3 @@
-const { stdin } = require("process");
 let readline = require("readline");
 
 let r = readline.createInterface({
@@ -28,4 +27,4 @@ r.on("line", (line) => {
     }
 
     process.exit();
-})
+});
