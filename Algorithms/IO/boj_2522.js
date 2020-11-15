@@ -10,11 +10,11 @@ let input = [];
 r.on("line", (line) => {
     input.push(line);
 }).on("close", () => {
-    let n = parseInt(input[0]);
+    let n = input[0];
 
     for (let i = -n + 1; i < n; i++) {
-        let result = "*".repeat(n - Math.abs(i)) + " ".repeat(Math.abs(i));
-        console.log(result + result.split('').reverse().join(''))
+        let result = " ".repeat(Math.abs(i)) + "*".repeat(n - Math.abs(i));
+        console.log(result);
     }
 
     process.exit();

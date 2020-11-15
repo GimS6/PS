@@ -20,4 +20,4 @@ r.on("line", (line) => {
     console.log(str.join("\n"));
 
     process.exit();
-})
+});
