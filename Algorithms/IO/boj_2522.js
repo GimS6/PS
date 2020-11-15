@@ -18,4 +18,4 @@ r.on("line", (line) => {
     }
 
     process.exit();
-})
+});

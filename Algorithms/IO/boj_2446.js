@@ -11,10 +11,13 @@ r.on("line", (line) => {
     input.push(line);
 }).on("close", () => {
     let n = parseInt(input[0]);
+    let maxStarsNum = n * 2 - 1;
 
     for (let i = -n + 1; i < n; i++) {
-        let result = "*".repeat(n - Math.abs(i)) + " ".repeat(Math.abs(i));
-        console.log(result + result.split('').reverse().join(''))
+        let stars = "*".repeat(Math.abs(Math.abs(i) * 2 + 1));
+        let space = " ".repeat((maxStarsNum - stars.length) / 2);
+
+        console.log(space + stars);
     }
 
     process.exit();
