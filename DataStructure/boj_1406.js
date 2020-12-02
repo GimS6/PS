@@ -1,15 +1,13 @@
-const editMax = 600000;
-let data = new Array(editMax).fill(0);
+let editMax = 600000
+let text = new Array(editMax).fill(0);
 let prev = new Array(editMax).fill(-1);
 let next = new Array(editMax).fill(-1);
 
-let unused = 1;
 let c = 0;
-let text;
-let n;
+let unused = 1;
 
 function insert(c, s) {
-    data[unused] = s;
+    text[unused] = s;
     prev[unused] = c;
     next[unused] = next[c];
 
@@ -33,15 +31,18 @@ const r = readline.createInterface({
     output: process.stdout
 });
 
+let s;
+let n;
+
 r.on("line", (line) => {
-    if (!text) {
-        text = line;
-        for (let i = 0; i < text.length; i++) {
-            insert(c, text[i]);
+    if (!s) {
+        s = line.split("");
+        for (let i = 0; i < s.length; i++) {
+            insert(c, s[i]);
             c++;
         }
     } else if (!n) {
-        n = parseInt(line);
+        n = line;
     } else if (line == "L") {
         if (prev[c] != -1) {
             c = prev[c];
@@ -52,20 +53,19 @@ r.on("line", (line) => {
         }
     } else if (line == "B") {
         if (prev[c] != -1) {
-            removeAt(c)
-            c = prev[c]
+            removeAt(c);
+            c = prev[c];
         }
-    } else if (line.startsWith("P")) {
-        let char = line.split(" ")[1];
-        insert(c, char)
-        c = next[c]
+    } else {
+        insert(c, line.split(" ")[1]);
+        c = next[c];
     }
-
 }).on("close", () => {
     let result = "";
     for (let i = next[0]; i != -1; i = next[i]) {
-        result += data[i];
+        result += text[i];
     }
     console.log(result);
+    
     process.exit();
 });
