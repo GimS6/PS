@@ -1,3 +1,4 @@
+// 중복 빼고 정렬하기
 const readline = require("readline");
 const r = readline.createInterface({
     input: process.stdin,

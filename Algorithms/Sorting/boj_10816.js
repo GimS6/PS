@@ -1,3 +1,4 @@
+// 숫자 카드 2
 const readline = require("readline");
 const r = readline.createInterface({
     input: process.stdin,
