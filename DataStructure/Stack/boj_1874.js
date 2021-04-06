@@ -2,7 +2,7 @@
 const readline = require("readline");
 const r = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    ouput: process.stdout
 });
 
 let n;
@@ -17,16 +17,15 @@ r.on("line", (line) => {
 }).on("close", () => {
     let stack = [];
     let result = [];
-    let idx = 1;
+    let pointer = 1;
 
     for (let i = 0; i < n; i = i) {
-        num = nums[i];
-        if (idx <= num) {
-            stack.push(idx);
+        if (pointer <= nums[i]) {
+            stack.push(pointer);
             result.push("+");
-            idx++;
-        } else if (stack[stack.length - 1] == num) {
-            stack.pop()
+            pointer++;
+        } else if (stack[stack.length - 1] == nums[i]) {
+            stack.pop();
             result.push("-");
             i++;
         } else {
@@ -34,6 +33,6 @@ r.on("line", (line) => {
         }
     }
 
-    console.log(stack.length == 0 ? result.join("\n") : "NO")
+    console.log(stack.length == 0 ? result.join("\n") : "NO");
     process.exit();
 });
