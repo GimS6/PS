@@ -1,2 +1,4 @@
 .vscode
 kakaocommerce
+go.sum
+go.mod
