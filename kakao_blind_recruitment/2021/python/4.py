@@ -1,59 +1,42 @@
-# 1
-
+#2
 import sys
 
-# Define infinity as the large
-# enough value. This value will be
-# used for vertices not connected to each other
-# 서로 갈 수 없는 정점에 쓰이는 값
 INF = sys.maxsize
 
-def floydWarshall(n, dist):
-    # 경유 지점
-    for k in range(n): 
-        # 출발 지점
-        for i in range(n):
-            # 도착 지점
-            for j in range(n):
-                if dist[i][j] > dist[i][k] + dist[k][j]:
-                    dist[i][j] = dist[i][k] + dist[k][j]
+def floyd_warshal(graph):
 
-    return dist
+    for k in range(1, len(graph)):
+        for i in range(1, len(graph)):
+            for j in range(1, len(graph)):
+                if graph[i][j] > graph[i][k] + graph[j][k]:
+                    graph[i][j] = graph[i][k] + graph[j][k]
 
-def printSolution(n, dist):
-    for i in range(n):
-        for j in range(n):
-            value = dist[i][j]
-            if(dist[i][j] == INF):
-                value = "INF" 
-            print(value,end=' ')
-        print()
-            
+    return graph
+
 
 def solution(n, s, a, b, fares):
-    graph = [[INF] * n for i in range(n)]
+    answer = 0
 
-    for i in range(n):
-        graph[i][i] = 0
+    # 각 구간의 요금표를 생성한다.
+    cost_graph = [[INF] * (n+1) for _ in range(n+1)]
 
-     # 정점 수
-    for x, y, c in fares:
-        # 두 지점 간 택시요금은 방향에 관계없이 동일하다.
-        graph[x-1][y-1] = c
-        graph[y-1][x-1] = c
+    for i in range(len(cost_graph)):
+        cost_graph[i][i] = 0
 
+    for f in fares:
+        src, dst, cost = f
+        cost_graph[src][dst] = cost
+        cost_graph[dst][src] = cost
 
-    # 모든 지점 사이의 예상 최저 택시요금
-    dist = floydWarshall(n, graph)
+    cost_graph = floyd_warshal(cost_graph)
 
-    # 출발지에서 합승 구간까지, 합승 구간에서 a, b 각각의 최소 택시비 요금을 구한다.
-    mins = INF
-    for k in range(n):
-        if mins > dist[s-1][k] + dist[k][a-1] + dist[k][b-1]:
-            mins = dist[s-1][k] + dist[k][a-1] + dist[k][b-1]
-        
-    return mins
+    costs = []
+    for i in range(1, len(cost_graph)):
+        costs.append(cost_graph[s][i] + cost_graph[i][a] + cost_graph[i][b])
 
+    answer = min(costs)   
+
+    return answer
 
 n = 6
 s = 4
