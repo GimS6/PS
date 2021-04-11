@@ -1,47 +1,69 @@
 # 1
 
-# 카카오상사 직원들을 여러 개의 팀 단위로 조직을 구성하고 있으며
-# 아래 그림은 CEO를 포함하여 10명의 직원과 4개의 팀으로 구성되어 있는 회사 조직도를
-# 보여주고 있습니다.
+# d[root][0]: 팀장이 회의에 참석하지 않는 경우 최소 매출
+# d[root][1]: 팀장이 회의에 참석하는 경우 최소 매출
+# 팀장과 팀원 모두 참석하는 경우가 최솟값을 가질 수도 있다.
+#   팀원이 참석했을 경우와 아닌 경우 중 최소값을 대입한다.
+#   d[n][1] += min(d[child][0], d[child][1])
 
-# 각 원들은 각각의 직원 1명을 표시하고 있음
-# 원 안에 적힌 두 개의 숫자는 직원의 정보
-#   왼쪽 숫자: 직원번호 - 1번부터 순서대로 발금
-#   오른쪽 숫자: 해당 직원의 하루 평균 매출액(원)
-# CEO를 포함하여 모든 직원은 팀장 또는 팀원이라는 직위를 가짐
-#   팀장과 팀원의 관계를 화살표로 표시
-#   화살표가 시작되는 쪽의 직원은 팀장
-#   화살표를 받는 쪽의 직원은 팀원
+# 팀장이 참석하지 않는 경우 팀원이 반드시 참석해야 한다.
+#   - 그룹원이 1명 이상 참석하는 경우
+#       - d[n][0]을 업데이트 한다.
 
-# 직원 번호 1번은 회사의 CEO로 고정이며 항상 팀장
-
-# CEO를 제외한 나머지 모든 직원들은 다른 누군가로부터 정확히
-# 1개의 화살표를 받는다.
-
-# 한 직원은 최대 2개의 팀에 소속될 수 있다.
-# 만약 어떤 직원이 두 개의 팀에 소속되어 있다면
-# 반드시 하나의 팀에서는 팀장, 나머지 팀에서는 팀원
-# 팀장을 겸임하거나 두 개의 팀에서 팀원이 될 수는 없다.
-#
+#   - 그룹원 중 아무도 참석하지 않는 경우
+#       - cost가 가장 적은 그룹원 한 명을 보낸다.
 
 
-from collections import defaultdict
+from typing import List
+
+
+MAX = 3000001
+tree = [[] for _ in range(MAX)]
+d = [[0,0] for _ in range(MAX)]
+is_visited = [False] * MAX
+sum_child = [0] * MAX
+
+def dfs(root: int, sales: List[int]):
+    is_visited[root] = True
+    d[root][1] = sales[root-1]
+
+    for i in range(len(tree[root])):
+        child = tree[root][i]
+
+        if is_visited[child]:
+            continue
+
+        dfs(child, sales)
+
+        d[root][1] += min(d[child][0], d[child][1])
+
+    tmp_sum = 0
+    is_summed = False
+    tmp_sum_list = []
+
+    for i in range(len(tree[root])):
+        child = tree[root][i]
+
+        if d[child][0] > d[child][1]:
+            is_summed = True
+            tmp_sum += d[child][1]
+        else:
+            tmp_sum_list.append(d[child][1] - d[child][0])
+            tmp_sum += d[child][0]
+
+    if len(tree[root]) > 0:
+        if is_summed:
+            d[root][0] = tmp_sum
+        else:
+            d[root][0] = tmp_sum + min(tmp_sum_list)
 
 def solution(sales, links):
-    answer = 0
+    for a, b in links:
+        tree[a].append(b)
 
-    print(sales)
+    dfs(1, sales)
 
-    d = defaultdict(list)
-
-    for key, value in links:
-        d[key].append(value)
-
-
-
-    print(d)
-
-    return answer
+    return min(d[1][0], d[1][1])
 
 
 sales = [14, 17, 15, 18, 19, 14, 13, 16, 28, 17]
