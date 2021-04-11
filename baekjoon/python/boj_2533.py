@@ -8,6 +8,7 @@
 
 import sys
 
+sys.setrecursionlimit(10**9)
 
 N = int(sys.stdin.readline().rstrip())
 
